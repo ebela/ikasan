@@ -97,8 +97,8 @@
 
 		<access-denied-handler error-page="/accessDenied.jsp"/>
 		<intercept-url pattern="/login.jsp" access="permitAll"/>
-		<intercept-url pattern="/css/*" access="permitAll"/>
-		<intercept-url pattern="/images/*" access="permitAll"/>
+		<intercept-url pattern="/css/style.css" access="permitAll"/>
+		<intercept-url pattern="/images/midbg.jpg" access="permitAll"/>
 		<!--<intercept-url pattern="/rest/**" access="hasAnyAuthority('ALL','WebServiceAdmin')"/>-->
 		<intercept-url pattern="/rest/**" access="permitAll"/>
 		<intercept-url pattern="/admin/**" access="hasAnyAuthority('ALL','WebServiceAdmin','WriteBlueConsole')" />
@@ -117,7 +117,7 @@
 				remember-me-parameter="_spring_security_remember_me"
 				remember-me-cookie="SPRING_SECURITY_REMEMBER_ME_COOKIE"
 		/>
-		<intercept-url pattern="/**" access="hasAnyAuthority('ALL','ReadBlueConsole','WriteBlueConsole')"/>
+		<intercept-url pattern="/org/ikasan/trigger/service" access="hasAnyAuthority('ALL','ReadBlueConsole','WriteBlueConsole')"/>
 		<http-basic />
 
 	</http>
@@ -200,8 +200,8 @@
 		<aop:pointcut id="moduleServiceServiceMethods"
 			expression="execution(* org.ikasan.module.startup.dao.StartupControlDao.save(..))" />
 		<aop:pointcut id="hospitalServiceMethods"
-			expression="execution(* org.ikasan.hospital.service.HospitalService.resubmit(..)) ||
-						execution(* org.ikasan.hospital.service.HospitalService.ignore(..))" />
+			expression="execution(* org.ikasan.spec.hospital.service.HospitalService.resubmit(..)) ||
+						execution(* org.ikasan.spec.hospital.service.HospitalService.ignore(..))" />
 		<aop:pointcut id="triggerDaoMethods"
 			expression="execution(* org.ikasan.trigger.dao.TriggerDao.save(..)) ||
 						execution(* org.ikasan.trigger.dao.TriggerDao.delete(..))" />

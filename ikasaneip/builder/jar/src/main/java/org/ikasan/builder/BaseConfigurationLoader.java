@@ -1,5 +1,4 @@
-<!--
- /*
+/*
  * $Id$
  * $URL$
  *
@@ -39,35 +38,43 @@
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * ====================================================================
  */
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-    xmlns:tx="http://www.springframework.org/schema/tx"
-    xmlns:util="http://www.springframework.org/schema/util"
-    xsi:schemaLocation="
-       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
-       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
-       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+package org.ikasan.builder;
 
-    <!-- =================================================================== -->
-    <!-- HSQL provides an in-memory database                                 -->
-    <!-- =================================================================== -->
-    
-    <util:map id="platformHibernateProperties">
-        <entry key="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-        <entry key="hibernate.show_sql" value="false"/>
-        <entry key="hibernate.hbm2ddl.auto" value="create"/>
-        <entry key="hibernate.flushMode" value="commit"/>
-    </util:map>
-    
-    <bean id="ikasan.ds" name="ikasan.xads ikasan.ds"
-        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.h2.Driver" />
-        <property name="url" value="jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1" />
-        <property name="username" value="sa" />
-        <property name="password" value="sa" />
-    </bean>
-    
-  
-</beans>
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
+
+@Configuration
+@ImportResource( {
+        "classpath:builder-conf.xml",
+        "classpath:exception-conf.xml",
+        "classpath:transaction-conf.xml",
+        "classpath:ikasan-transaction-conf.xml",
+        "classpath:serialiser-service-conf.xml",
+        "classpath:scheduler-service-conf.xml",
+        "classpath:error-reporting-service-conf.xml",
+        "classpath:recoveryManager-service-conf.xml",
+        "classpath:module-service-conf.xml",
+        "classpath:configuration-service-conf.xml",
+        "classpath:systemevent-service-conf.xml",
+        "classpath:replay-service-conf.xml",
+        "classpath:wiretap-service-conf.xml",
+        "classpath:hospital-conf.xml",
+
+        "classpath:exclusion-service-conf.xml",
+        "classpath:ikasan-module-bootstrap-conf.xml",
+        "classpath:topology-conf.xml",
+        "classpath:topology-tx-conf.xml",
+
+        //"classpath:user-conf.xml",
+        "classpath:h2db-datasource-conf.xml",
+
+        "classpath:security-service-boot-conf.xml",
+        "classpath:springapp-servlet-boot.xml",
+
+} )
+
+@ComponentScan({"org.ikasan.web.*","org.ikasan.rest.*","*"})
+public class BaseConfigurationLoader {
+
+}

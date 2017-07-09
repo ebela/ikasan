@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- /*
+/*
  * $Id$
  * $URL$
  *
@@ -40,23 +38,49 @@
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * ====================================================================
  */
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-    xmlns:tx="http://www.springframework.org/schema/tx"
-    xsi:schemaLocation="
-       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
-       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+package org.ikasan.builder;
 
-    <!-- mockery interfaces -->
-    <bean id="mockery"
-        class="org.jmock.Mockery" >
-        <property name="imposteriser" >
-            <bean class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-                   <property name="staticField" value="org.jmock.lib.legacy.ClassImposteriser.INSTANCE"/>
-             </bean>
-        </property>
-    </bean>
+import org.ikasan.spec.module.Module;
+import org.ikasan.spec.module.ModuleInitialisationService;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 
-</beans>
+@SpringBootApplication
+public class IkasanApplicationSpringBoot implements IkasanApplication
+{
+    static final String MODULE_NAME = "moduleName";
+    static final String PROTOTYPE = "prototype";
+
+    ApplicationContext context;
+
+    public IkasanApplicationSpringBoot(String[] args)
+    {
+        this.context = SpringApplication.run(IkasanApplicationSpringBoot.class, args);
+    }
+
+    IkasanApplicationSpringBoot()
+    {
+    }
+
+//    public BuilderFactory getBuilderFactory()
+//    {
+//        return new BuilderFactory(this.context);
+//    }
+
+    public ModuleBuilder getModuleBuilder(String name)
+    {
+        return new ModuleBuilder(this.context, name);
+    }
+
+    public void run(Module module)
+    {
+//        addModuleName((BeanDefinitionRegistry) context,module);
+        ModuleInitialisationService service =  this.context.getBean(ModuleInitialisationService.class);
+        service.register(module);
+        //service.run();
+        // not sure
+    }
+
+
+}
