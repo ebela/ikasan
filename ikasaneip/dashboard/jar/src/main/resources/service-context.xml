@@ -68,12 +68,16 @@
 		<property name="sessionFactory" ref="ikasanSessionFactory" />
 	</bean>
 
-    <bean id="mappingConfigurationService" class="org.ikasan.mapping.service.MappingManagementServiceImpl">
+    <bean id="mappingManagementService" class="org.ikasan.mapping.service.MappingManagementServiceImpl">
         <constructor-arg ref="mappingConfigurationDao"/>
-    </bean>
+	</bean>
+
+	<bean id="managementService" class="org.ikasan.mapping.service.MappingServiceImpl">
+		<constructor-arg ref="mappingConfigurationDao"/>
+	</bean>
 
     <bean id="mappingConfigurationDao" class="org.ikasan.mapping.dao.HibernateMappingConfigurationDao">
-        <property name="sessionFactory" ref="ikasanSessionFactory" />
+     	<property name="sessionFactory" ref="ikasanSessionFactory" />
     </bean>
     
     <bean id="ldapService" class="org.ikasan.security.service.LdapServiceImpl">
