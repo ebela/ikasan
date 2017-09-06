@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.ikasan</groupId>
-	<artifactId>ikasan-dashboard-war</artifactId>
-	<packaging>war</packaging>
+	<artifactId>ikasan-dashboard-boot</artifactId>
+	<packaging>jar</packaging>
 	<version>2.0.0-SNAPSHOT</version>
-	<name>Ikasan Dashboard</name>
+
 
 	<parent>
 		<groupId>org.ikasan</groupId>
@@ -57,15 +57,17 @@
 			<version>${project.version}</version>
 		</dependency>
 
-
-
 		<dependency>
             <groupId>org.ikasan</groupId>
-            <artifactId>ikasan-eip</artifactId>
+            <artifactId>ikasan-eip-standalone</artifactId>
         </dependency>
 
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			<version>6.2.1.jre8</version>
+		</dependency>
 
-		
 	</dependencies>
 	<build>
 		<plugins>
@@ -85,22 +87,9 @@
 				<configuration>
 					<filesets>
 						<fileset>
-							<directory>src/main/webapp/VAADIN/widgetsets</directory>
+							<directory>src/main/resources/VAADIN/widgetsets</directory>
 						</fileset>
 					</filesets>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-					<archive>
-						<manifestEntries>
-							<Dependencies>org.ikasan.${dashed.project.version}.configuration</Dependencies>
-						</manifestEntries>
-					</archive>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -110,9 +99,9 @@
                 <configuration>
                     <extraJvmArgs>-Xmx512M -Xss1024k -Dvaadin.charts.developer.license=4c2ab27c-2412-455a-bf24-8af3c447e7ff</extraJvmArgs>
                     
-                    <webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets
+                    <webappDirectory>${basedir}/src/main/resources/VAADIN/widgetsets
                     </webappDirectory>
-                    <hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets
+                    <hostedWebapp>${basedir}/src/main/resources/VAADIN/widgetsets
                     </hostedWebapp>
                     <noServer>true</noServer>
                     
@@ -134,6 +123,18 @@
                     </execution>
                 </executions>
             </plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${version.org.springboot}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
